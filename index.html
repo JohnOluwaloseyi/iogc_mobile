@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open IOGC Mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function openIOGCMobile() {
+            var appLink = "iogc-mobile://"; // Just open the app
+
+            // Store links
+            var iosStoreLink = "https://apps.apple.com/ng/app/iogc-mobile/id6686394405?platform=iphone";
+            var androidStoreLink = "https://play.google.com/store/apps/details?id=com.elduwani.iogctest";
+            var fallbackLink = "https://iogc.ng";
+
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            // Pick store based on device
+            var storeLink = fallbackLink;
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                storeLink = iosStoreLink;
+            } else if (/android/i.test(userAgent)) {
+                storeLink = androidStoreLink;
+            }
+
+            // Try deep link first
+            var start = Date.now();
+            window.location = appLink;
+
+            // If not opened in 1 second, redirect to store/fallback
+            setTimeout(function() {
+                if (Date.now() - start < 1500) {
+                    window.location = storeLink;
+                }
+            }, 1000);
+        }
+    </script>
+</head>
+<body onload="openIOGCMobile()">
+    <p>If you are not redirected automatically,  
+       <a href="iogc-mobile://">open the app</a>,  
+       <a href="https://apps.apple.com/ng/app/iogc-mobile/id6686394405?platform=iphone">get it on iOS</a>,  
+       <a href="https://play.google.com/store/apps/details?id=com.elduwani.iogctest">get it on Android</a>, or  
+       <a href="https://iogc.ng">visit our website</a>.
+    </p>
+</body>
+</html>
